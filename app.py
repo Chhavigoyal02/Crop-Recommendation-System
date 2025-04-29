@@ -31,8 +31,7 @@ def predict():
         humidity = float(data['humidity'])
         ph = float(data['ph'])
         rainfall = float(data['rainfall'])
-
-        # Create input feature array in the right order
+        
         features = np.array([[N, P, K, temperature, humidity, ph, rainfall]])
         scaled_features = scaler.transform(features)
         prediction = model.predict(scaled_features)[0]
