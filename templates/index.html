@@ -4,24 +4,169 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Crop Recommendation</title>
-    <link rel="stylesheet" href="static/styles.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
   </head>
-
-  <body>
-    <div class="container">
-      <h2>Crop Recommendation</h2>
-      <form id="cropForm">
-        <label for="N">Nitrogen (N) level:</label>
-        <input type="number" id="N" name="N" required min="0" step="any" />
-        <label for="P">Phosphorus (P) level:</label>
-        <input type="number" id="P" name="P" required min="0" step="any" />
-        <label for="K">Potassium (K) level:</label>
-        <input type="number" id="K" name="K" required min="0" step="any" />
-        <button type="submit">Get Recommendation</button>
-      </form>
-      <div class="result" id="result"></div>
+  <body
+    class="bg-gradient-to-br from-green-100 to-green-300 min-h-screen flex items-center justify-center font-sans"
+  >
+    <div
+      class="absolute bottom-0 left-0 w-full h-7 bg-green-600 flex items-center justify-center text-white font-bold text-md z-10"
+    >
+      <span class="mr-2">©</span> Upendra Singh
     </div>
-  </body>
+    <div
+      class="absolute top-0 left-0 w-full h-full z-0 bg-green-200 flex items-center justify-center overflow-hidden"
+    >
+      <img
+        src="{{ url_for('static', filename='crop_img.png') }}"
+        alt="Crop"
+        class="animate-marquee"
+      />
+    </div>
 
-  <script src="static/script.js"></script>
+    <div
+      id="chartWrapper"
+      class="z-10"
+      style="
+        display: none;
+        margin-top: 20px;
+        background-color: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+        margin-right: 30px;
+      "
+    >
+      <canvas id="npkChart" width="400" height="200" class="z-10"></canvas>
+    </div>
+
+    <div
+      class="bg-white shadow-2xl rounded-2xl pr-10 pl-10 pt-5 pb-5 w-full z-10 max-w-md"
+    >
+      <h2 class="text-2xl font-bold text-center text-green-700 mb-6">
+        🌾 Crop Recommendation
+      </h2>
+      <form id="cropForm" class="space-y-4">
+        <div>
+          <label for="N" class="block text-sm font-semibold"
+            >Nitrogen (N) level</label
+          >
+          <input
+            type="number"
+            id="N"
+            name="N"
+            required
+            min="0"
+            step="any"
+            class="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+          />
+        </div>
+
+        <div>
+          <label for="P" class="block text-sm font-semibold"
+            >Phosphorus (P) level</label
+          >
+          <input
+            type="number"
+            id="P"
+            name="P"
+            required
+            min="0"
+            step="any"
+            class="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+          />
+        </div>
+
+        <div>
+          <label for="K" class="block text-sm font-semibold"
+            >Potassium (K) level</label
+          >
+          <input
+            type="number"
+            id="K"
+            name="K"
+            required
+            min="0"
+            step="any"
+            class="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+          />
+        </div>
+
+        <div>
+          <label for="temperature" class="block text-sm font-semibold"
+            >Temperature (°C)</label
+          >
+          <input
+            type="number"
+            id="temperature"
+            name="temperature"
+            required
+            step="any"
+            class="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+          />
+        </div>
+
+        <div>
+          <label for="humidity" class="block text-sm font-semibold"
+            >Humidity (%)</label
+          >
+          <input
+            type="number"
+            id="humidity"
+            name="humidity"
+            required
+            step="any"
+            class="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+          />
+        </div>
+
+        <div>
+          <label for="moisture" class="block text-sm font-semibold"
+            >Ph (%)</label
+          >
+          <input
+            type="number"
+            id="ph"
+            name="ph"
+            required
+            step="any"
+            class="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+          />
+        </div>
+
+        <div>
+          <label for="moisture" class="block text-sm font-semibold"
+            >Rainfall (%)</label
+          >
+          <input
+            type="number"
+            id="rainfall"
+            name="rainfall"
+            required
+            step="any"
+            class="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+          />
+        </div>
+
+        <button
+          type="submit"
+          class="w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded-md font-semibold transition"
+        >
+          Get Recommendation
+        </button>
+      </form>
+
+      <div
+        id="result"
+        class="mt-6 text-center text-green-800 font-medium"
+      ></div>
+    </div>
+
+    <script src="static/script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </body>
 </html>

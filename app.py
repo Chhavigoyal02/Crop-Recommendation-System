@@ -4,18 +4,21 @@ import numpy as np
 
 app = Flask(__name__)
 
+# Load the saved model and scaler
+model = pickle.load(open('model.pkl', 'rb'))
+scaler = pickle.load(open('minmaxscaler.pkl', 'rb'))
 
-
-class FakeModel:
-    def predict(self, features):
-        crops = ['rice', 'wheat', 'maize', 'barley']
-        return [crops[int(sum(features[0]) % len(crops))]]
-model = FakeModel()
+# Crop label dictionary
+crop_dict = {
+    1: "Rice", 2: "Maize", 3: "Jute", 4: "Cotton", 5: "Coconut", 6: "Papaya", 7: "Orange",
+    8: "Apple", 9: "Muskmelon", 10: "Watermelon", 11: "Grapes", 12: "Mango", 13: "Banana",
+    14: "Pomegranate", 15: "Lentil", 16: "Blackgram", 17: "Mungbean", 18: "Mothbeans",
+    19: "Pigeonpeas", 20: "Kidneybeans", 21: "Chickpea", 22: "Coffee"
+}
 
 @app.route('/')
 def index():
     return render_template('index.html')
-
 
 @app.route('/predict', methods=['POST'])
 def predict():
@@ -24,9 +27,17 @@ def predict():
         N = float(data['N'])
         P = float(data['P'])
         K = float(data['K'])
-        features = np.array([[N, P, K]])
-        prediction = model.predict(features)
-        crop = prediction[0]
+        temperature = float(data['temperature'])
+        humidity = float(data['humidity'])
+        ph = float(data['ph'])
+        rainfall = float(data['rainfall'])
+
+        # Create input feature array in the right order
+        features = np.array([[N, P, K, temperature, humidity, ph, rainfall]])
+        scaled_features = scaler.transform(features)
+        prediction = model.predict(scaled_features)[0]
+
+        crop = crop_dict.get(prediction, "Unknown Crop")
         return jsonify({'crop': crop})
     except Exception as e:
         return jsonify({'error': str(e)}), 400
