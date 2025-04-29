@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Crop Recommendation</title>
+    <link rel="stylesheet" href="static/styles.css" />
+  </head>
+
+  <body>
+    <div class="container">
+      <h2>Crop Recommendation</h2>
+      <form id="cropForm">
+        <label for="N">Nitrogen (N) level:</label>
+        <input type="number" id="N" name="N" required min="0" step="any" />
+        <label for="P">Phosphorus (P) level:</label>
+        <input type="number" id="P" name="P" required min="0" step="any" />
+        <label for="K">Potassium (K) level:</label>
+        <input type="number" id="K" name="K" required min="0" step="any" />
+        <button type="submit">Get Recommendation</button>
+      </form>
+      <div class="result" id="result"></div>
+    </div>
+  </body>
+
+  <script src="static/script.js"></script>
+</html>
